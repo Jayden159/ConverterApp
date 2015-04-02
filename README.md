@@ -5,7 +5,7 @@ Team: Azhar, Russell, Alex and Jayden
 
 Tasks:
 
-Create group tasks – Azhar/Jayden
+Create group tasks – Azhar/Jayden DONE
 
 Convert program from console Swing UI – Azhar
 
