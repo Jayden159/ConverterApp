@@ -7,7 +7,7 @@ Tasks:
 
 Create group tasks – Azhar/Jayden DONE
 
-Convert program from console Swing UI – Azhar
+Convert program from console Swing UI – Azhar DONE
 
 Unit for return methods - Azhar
 
