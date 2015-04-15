@@ -15,9 +15,9 @@ Confirm units of measurement – Jayden DONE
 
 Methods for each units of conversion – Jayden DONE
 
-Methods for each unit reversed – Russell
+Methods for each unit reversed – Russell DONE
 
-Rounding method to choose to how many decimal points - Russell
+Rounding method to choose to how many decimal points - Russell DONE
 
 Go through and add/change any documentation – Russell/Everyone
 
