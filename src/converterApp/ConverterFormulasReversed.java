@@ -12,68 +12,67 @@ package converterApp;
 public class ConverterFormulasReversed 
 {
     //Inch to cm
-    public static double inchToCm(double input, int round) {
+    public static double inchToCm(double input) {
         double result = input / 0.39370;
-        //result = rounding();
         return result;
     }
     //Feet to Cm
-    public static double feetToCm(double input, int round) {
+    public static double feetToCm(double input) {
         double result = input / 0.032808;
         return result;
     }
     //Yards to Cm
-    public static double yardToCm(double input, int round) {
+    public static double yardToCm(double input) {
         double result = input / 0.010936;
         return result;
     }
     //miles to cm
-    public static double mileToCm(double input, int round) {
+    public static double mileToCm(double input) {
         double result = input / 0.00000621;
         return result;
     }
     //inches to meters 
-    public static double inchToMeter(double input, int round) {
+    public static double inchToMeter(double input) {
         double result = input / 39.370;
         return result;
     }
     //Feet to meters
-    public static double feetToMeter(double input, int round) {
+    public static double feetToMeter(double input) {
         double result = input / 3.2808;
         return result;
     }
     //Yards to Meters
-    public static double yardToMeter(double input, int round) {
+    public static double yardToMeter(double input) {
         double result = input / 1.0936;
         return result;
     }
     //Miles to Meters
-    public static double mileToMeter(double input, int round) {
+    public static double mileToMeter(double input) {
         double result = input / 0.00062137;
         return result;
     }
     //Inches to Kilometers
-    public static double inchToKilometer(double input, int round) {
+    public static double inchToKilometer(double input) {
         double result = input * 39370;
         return result;
     }
     //Feet to Kilometers
-    public static double feetToKilometer(double input, int round) {
+    public static double feetToKilometer(double input) {
         double result = input / 3280.8;
         return result;
     }
     //Yards to Kilometers
-    public static double yardToKilometer(double input, int round) {
+    public static double yardToKilometer(double input) {
         double result = input / 1093.6;
         return result;
     }
     //Miles to Kilometers
-    public static double mileToKilometer(double input, int round) {
+    public static double mileToKilometer(double input) {
         double result = input / 0.62137;
         return result;
     }
     //Fahrenheit to Celcius
-    public static double fahrenheitToCelcius(double input, int round) {
+    public static double fahrenheitToCelcius(double input) {
         double result = (input / 9/5) + 32;
         return result;
     }
