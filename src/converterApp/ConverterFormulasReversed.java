@@ -5,75 +5,41 @@
  */
 package converterApp;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Alex, Azhar, Russell and Jayden
  */
 public class ConverterFormulasReversed 
 {
-    //Inch to cm
-    public static double inchToCm(double input) {
-        double result = input / 0.39370;
-        return result;
+private HashMap USToIS = new HashMap();
+        
+    public ConverterFormulasReversed(double input){
+        USToIS.put("inchTocm", input / 0.39370);
+        USToIS.put("feetTocm", input / 0.032808);
+        USToIS.put("yardTocm", input / 0.010936);
+        USToIS.put("mileTocm", input / 0.00000621371);
+        USToIS.put("inchTometer", input / 39.370);
+        USToIS.put("feetTometer", input / 3.2808);
+        USToIS.put("yardTometer", input / 1.0936);
+        USToIS.put("milesTometer", input / 0.00062137119);
+        USToIS.put("inchTokilometer", input / 39370);
+        USToIS.put("feetTokilometer", input / 3280.8);
+        USToIS.put("yardTokilometer", input / 1093.6);
+        USToIS.put("mileTokilometer", input / 0.62137);
+        USToIS.put("fahrenheitTocelcius", (input -32) * 5/9);
+        
     }
-    //Feet to Cm
-    public static double feetToCm(double input) {
-        double result = input / 0.032808;
-        return result;
+    
+    public double getValue(String sourceUnit, String targetUnit){
+       return (double) USToIS.get(sourceUnit+"To"+targetUnit);
     }
-    //Yards to Cm
-    public static double yardToCm(double input) {
-        double result = input / 0.010936;
-        return result;
-    }
-    //miles to cm
-    public static double mileToCm(double input) {
-        double result = input / 0.00000621371;
-        return result;
-    }
-    //inches to meters 
-    public static double inchToMeter(double input) {
-        double result = input / 39.370;
-        return result;
-    }
-    //Feet to meters
-    public static double feetToMeter(double input) {
-        double result = input / 3.2808;
-        return result;
-    }
-    //Yards to Meters
-    public static double yardToMeter(double input) {
-        double result = input / 1.0936;
-        return result;
-    }
-    //Miles to Meters
-    public static double mileToMeter(double input) {
-        double result = input / 0.00062137119;
-        return result;
-    }
-    //Inches to Kilometers
-    public static double inchToKilometer(double input) {
-        double result = input / 39370;
-        return result;
-    }
-    //Feet to Kilometers
-    public static double feetToKilometer(double input) {
-        double result = input / 3280.8;
-        return result;
-    }
-    //Yards to Kilometers
-    public static double yardToKilometer(double input) {
-        double result = input / 1093.6;
-        return result;
-    }
-    //Miles to Kilometers
-    public static double mileToKilometer(double input) {
-        double result = input / 0.62137;
-        return result;
-    }
+}
+/*Inch to cm
+
     //Fahrenheit to Celcius
     public static double fahrenheitToCelcius(double input) {
         double result = (input -32) * 5/9;
         return result;
-    }
-}
+    }*/
