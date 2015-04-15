@@ -28,7 +28,7 @@ public class ConverterFormulasReversed
     }
     //miles to cm
     public static double mileToCm(double input) {
-        double result = input / 0.00000621;
+        double result = input / 0.00000621371;
         return result;
     }
     //inches to meters 
@@ -48,12 +48,12 @@ public class ConverterFormulasReversed
     }
     //Miles to Meters
     public static double mileToMeter(double input) {
-        double result = input / 0.00062137;
+        double result = input / 0.00062137119;
         return result;
     }
     //Inches to Kilometers
     public static double inchToKilometer(double input) {
-        double result = input * 39370;
+        double result = input / 39370;
         return result;
     }
     //Feet to Kilometers
@@ -73,7 +73,7 @@ public class ConverterFormulasReversed
     }
     //Fahrenheit to Celcius
     public static double fahrenheitToCelcius(double input) {
-        double result = (input / 9/5) + 32;
+        double result = (input -32) * 5/9;
         return result;
     }
 }
