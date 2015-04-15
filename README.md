@@ -11,9 +11,9 @@ Convert program from console Swing UI – Azhar
 
 Unit for return methods - Azhar
 
-Put units of measurement to and from into array – Jayden
+Confirm units of measurement – Jayden DONE
 
-Methods for each units of conversion – Jayden
+Methods for each units of conversion – Jayden DONE
 
 Methods for each unit reversed – Russell
 
