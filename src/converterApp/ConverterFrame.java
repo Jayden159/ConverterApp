@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package converterApp;
+package converterapp;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
@@ -16,6 +19,9 @@ public class ConverterFrame extends javax.swing.JFrame {
      */
     public ConverterFrame() {
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2); //to show the display at center of screens
+        
     }
 
     /**
@@ -27,7 +33,7 @@ public class ConverterFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        converterView1 = new converterApp.ConverterView();
+        converterView1 = new converterapp.ConverterView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().add(converterView1, java.awt.BorderLayout.CENTER);
@@ -38,6 +44,6 @@ public class ConverterFrame extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private converterApp.ConverterView converterView1;
+    private converterapp.ConverterView converterView1;
     // End of variables declaration//GEN-END:variables
 }

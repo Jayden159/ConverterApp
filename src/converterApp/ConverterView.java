@@ -1,27 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package converterApp;
 
+package converterapp;
+
+import java.awt.Color;
 import java.awt.event.ItemEvent;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JSpinner;
+import javax.swing.text.InternationalFormatter;
 
 /**
  *
  * @author Azhar, Alex, Jeydan, Russel
  */
-public class ConverterView extends javax.swing.JPanel {
-    private String[] ISUnits = {"cm","metre","km","C"};
-    private String[] USUnits = {"inch","feet","yard","F"};
-    private NumberFormat numFormat;
+public class ConverterView extends javax.swing.JPanel{
+    private final String[] ISUnits = {"cm","metre","km","C"};
+    private final String[] USUnits = {"inch","feet","yard","F"};
     /**
      * Creates new form ConverterView
      */
     public ConverterView() {
         initComponents();
-        
     }
 
     /**
@@ -34,68 +36,40 @@ public class ConverterView extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        lbl_unit1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        lb_unit2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        cbox_sourceUnit = new javax.swing.JComboBox(ISUnits);
+        jPanel2 = new javax.swing.JPanel();
+        lb_title = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        cbox_sourceUnit = new javax.swing.JComboBox(ISUnits);
         cbox_targetUnit = new javax.swing.JComboBox(USUnits);
+        btn_convert = new javax.swing.JButton();
         toggleBtn_switch = new javax.swing.JToggleButton();
+        sp_numberAfterDecimal = new javax.swing.JSpinner();
+        txt_sourceUnit = new javax.swing.JFormattedTextField();
+        txt_targetUnit = new javax.swing.JFormattedTextField();
 
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
-        jLabel1.setText("Converter Application");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
-        add(jLabel1, gridBagConstraints);
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        lb_title.setFont(new java.awt.Font("Arial Narrow", 1, 18)); // NOI18N
+        lb_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_title.setText("Converter Application");
+        jPanel2.add(lb_title, java.awt.BorderLayout.CENTER);
+
+        add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        jLabel4.setText("Fraction Digits");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jTextField1, gridBagConstraints);
-
-        lbl_unit1.setText(cbox_sourceUnit.getSelectedItem().toString());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lbl_unit1, gridBagConstraints);
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jTextField2, gridBagConstraints);
-
-        lb_unit2.setText(cbox_targetUnit.getSelectedItem().toString());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lb_unit2, gridBagConstraints);
-
-        jButton1.setText("Convert");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jButton1, gridBagConstraints);
+        jPanel1.add(jLabel4, gridBagConstraints);
 
         cbox_sourceUnit.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -103,26 +77,11 @@ public class ConverterView extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 20;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbox_sourceUnit, gridBagConstraints);
-
-        jLabel4.setText("Numbers after Decimal");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jLabel4, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(jTextField3, gridBagConstraints);
+        jPanel1.add(cbox_sourceUnit, gridBagConstraints);
 
         cbox_targetUnit.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -131,10 +90,22 @@ public class ConverterView extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 20;
+        jPanel1.add(cbox_targetUnit, gridBagConstraints);
+
+        btn_convert.setText("Convert");
+        btn_convert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_convertActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(cbox_targetUnit, gridBagConstraints);
+        jPanel1.add(btn_convert, gridBagConstraints);
 
         toggleBtn_switch.setText("Switch");
         toggleBtn_switch.addItemListener(new java.awt.event.ItemListener() {
@@ -148,14 +119,50 @@ public class ConverterView extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        add(toggleBtn_switch, gridBagConstraints);
-    }// </editor-fold>//GEN-END:initComponents
+        jPanel1.add(toggleBtn_switch, gridBagConstraints);
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+        sp_numberAfterDecimal.setModel(new javax.swing.SpinnerNumberModel(5, 1, 9, 1));
+        JFormattedTextField tf = ((JSpinner.DefaultEditor) sp_numberAfterDecimal.getEditor()).getTextField();
+        tf.setEditable(false);
+        tf.setBackground(Color.white);
+        sp_numberAfterDecimal.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sp_numberAfterDecimalStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(sp_numberAfterDecimal, gridBagConstraints);
+
+        txt_sourceUnit.setFormatterFactory(new CostumeFormatter(5));
+        txt_sourceUnit.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txt_sourceUnit.setValue(0);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txt_sourceUnit, gridBagConstraints);
+
+        txt_targetUnit.setFormatterFactory(new CostumeFormatter(5));
+        txt_targetUnit.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        txt_targetUnit.setValue(0);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(txt_targetUnit, gridBagConstraints);
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
+    }// </editor-fold>//GEN-END:initComponents
 
     private void toggleBtn_switchItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_toggleBtn_switchItemStateChanged
         // TODO add your handling code here:
@@ -170,37 +177,66 @@ public class ConverterView extends javax.swing.JPanel {
         }
         cbox_sourceUnit.setSelectedIndex(selectedTargetIndex);
         cbox_targetUnit.setSelectedIndex(selectedSourceIndex);
-        lbl_unit1.setText(cbox_sourceUnit.getSelectedItem().toString());
-        lb_unit2.setText(cbox_targetUnit.getSelectedItem().toString());
     }//GEN-LAST:event_toggleBtn_switchItemStateChanged
 
     private void cbox_sourceUnitItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_sourceUnitItemStateChanged
         // TODO add your handling code here:
-        lbl_unit1.setText(cbox_sourceUnit.getSelectedItem().toString());
-       
+      
     }//GEN-LAST:event_cbox_sourceUnitItemStateChanged
 
     private void cbox_targetUnitItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_targetUnitItemStateChanged
-        // TODO add your handling code here:
-         lb_unit2.setText(cbox_targetUnit.getSelectedItem().toString());
+        
     }//GEN-LAST:event_cbox_targetUnitItemStateChanged
 
     private void toggleBtn_switchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleBtn_switchActionPerformed
         
     }//GEN-LAST:event_toggleBtn_switchActionPerformed
 
+    private void sp_numberAfterDecimalStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sp_numberAfterDecimalStateChanged
+        // TODO add your handling code here:
+        txt_sourceUnit.setValue(0.0);
+        txt_targetUnit.setValue(0.0);
+        txt_sourceUnit.setFormatterFactory(new CostumeFormatter(Integer.parseInt(sp_numberAfterDecimal.getValue().toString())));
+        txt_targetUnit.setFormatterFactory(new CostumeFormatter(Integer.parseInt(sp_numberAfterDecimal.getValue().toString())));
+    }//GEN-LAST:event_sp_numberAfterDecimalStateChanged
+
+    private void btn_convertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_convertActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btn_convertActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_convert;
     private javax.swing.JComboBox cbox_sourceUnit;
     private javax.swing.JComboBox cbox_targetUnit;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JLabel lb_unit2;
-    private javax.swing.JLabel lbl_unit1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lb_title;
+    private javax.swing.JSpinner sp_numberAfterDecimal;
     private javax.swing.JToggleButton toggleBtn_switch;
+    private javax.swing.JFormattedTextField txt_sourceUnit;
+    private javax.swing.JFormattedTextField txt_targetUnit;
     // End of variables declaration//GEN-END:variables
+    
+    class CostumeFormatter extends JFormattedTextField.AbstractFormatterFactory{
+        
+        private int maximumFractionDigits;
+        
+        CostumeFormatter(int maximumFractionDigits){
+            this.maximumFractionDigits = maximumFractionDigits;
+        }
+        
+        @Override
+        public AbstractFormatter getFormatter(JFormattedTextField tf) {
+            NumberFormat format = DecimalFormat.getInstance();
+                format.setMinimumFractionDigits(1);
+                format.setMaximumFractionDigits(maximumFractionDigits);
+                format.setRoundingMode(RoundingMode.HALF_UP);
+                InternationalFormatter formatter = new InternationalFormatter(format);
+                formatter.setAllowsInvalid(false);
+                return formatter;
+        }
+    }
 }
