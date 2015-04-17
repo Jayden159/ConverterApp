@@ -6,9 +6,9 @@ import java.awt.event.ItemEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.text.InternationalFormatter;
 
@@ -17,8 +17,9 @@ import javax.swing.text.InternationalFormatter;
  * @author Azhar, Alex, Jeydan, Russel
  */
 public class ConverterView extends javax.swing.JPanel{
-    private final String[] ISUnits = {"cm","metre","km","C"};
-    private final String[] USUnits = {"inch","feet","yard","F"};
+    private final String[] ISUnits = {"centimetre","metre","kilometre","celcius"};
+    private final String[] USUnits = {"inch","feet","yard","mile","fahrenheit"};
+    //private ConverterFormulas cf;
     /**
      * Creates new form ConverterView
      */
@@ -150,6 +151,7 @@ public class ConverterView extends javax.swing.JPanel{
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(txt_sourceUnit, gridBagConstraints);
 
+        txt_targetUnit.setEditable(false);
         txt_targetUnit.setFormatterFactory(new CostumeFormatter(5));
         txt_targetUnit.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         txt_targetUnit.setValue(0);
@@ -181,11 +183,29 @@ public class ConverterView extends javax.swing.JPanel{
 
     private void cbox_sourceUnitItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_sourceUnitItemStateChanged
         // TODO add your handling code here:
-      
+        if(cbox_sourceUnit.getSelectedItem().equals("celcius")){
+            if(!cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
+                cbox_targetUnit.setSelectedItem("fahrenheit");
+            }
+        } else if(cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
+            if(!cbox_targetUnit.getSelectedItem().equals("celcius")){
+                cbox_targetUnit.setSelectedItem("celcius");
+            }
+        }
+        
     }//GEN-LAST:event_cbox_sourceUnitItemStateChanged
 
     private void cbox_targetUnitItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_targetUnitItemStateChanged
-        
+        if(cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
+            if(!cbox_sourceUnit.getSelectedItem().equals("celcius")){
+                cbox_sourceUnit.setSelectedItem("celcius");
+            }
+        } else if(cbox_targetUnit.getSelectedItem().equals("celcius")){
+            if(!cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
+                cbox_sourceUnit.setSelectedItem("fahrenheit");
+            }
+        }
+       
     }//GEN-LAST:event_cbox_targetUnitItemStateChanged
 
     private void toggleBtn_switchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleBtn_switchActionPerformed
@@ -202,7 +222,20 @@ public class ConverterView extends javax.swing.JPanel{
 
     private void btn_convertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_convertActionPerformed
         // TODO add your handling code here:
+        String sourceUnit = cbox_sourceUnit.getSelectedItem().toString();
+        String targetUnit = cbox_targetUnit.getSelectedItem().toString();
+        Formulas f = new Formulas(Double.parseDouble(txt_sourceUnit.getValue().toString()));
         
+        double value = f.getValue(sourceUnit, targetUnit);
+        if(value == -1){
+            JOptionPane.showMessageDialog(this, "the units are invalid");
+            txt_sourceUnit.setValue(0.0);
+            txt_targetUnit.setValue(0.0);
+            return;
+        }
+        
+        txt_targetUnit.setValue(value);
+//        
     }//GEN-LAST:event_btn_convertActionPerformed
 
 
