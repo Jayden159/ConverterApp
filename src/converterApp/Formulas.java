@@ -12,11 +12,12 @@ import java.util.HashMap;
  * @author 041406846
  */
 public class Formulas {
-    
+    //Formulas class contains hashmap variable which stores every converting formal for the program
     private HashMap formulaMaps = new HashMap();
     
-    public Formulas(double input){
-        formulaMaps.put("centimetreToinch", input*0.39370);
+    public Formulas(double input){ //construction with double input, goes through to hashmap value
+                                    // the keys naming are determinated by measurement unit names
+        formulaMaps.put("centimetreToinch", input*0.39370); 
         formulaMaps.put("centimetreTofeet", input * 0.032808);
         formulaMaps.put("centimetreToyard", input * 0.010936);
         formulaMaps.put("centimetreTomile", input * 0.00000621);
@@ -44,11 +45,11 @@ public class Formulas {
         formulaMaps.put("fahrenheitTocelcius", (input -32) * 5/9);
     }
     
-    public double getValue(String sourceUnit, String targetUnit){
-       if(formulaMaps.containsKey(sourceUnit+"To"+targetUnit)){
-           return (double) formulaMaps.get(sourceUnit+"To"+targetUnit);
+    public double getValue(String sourceUnit, String targetUnit){ //get the value based source and target unit names
+       if(formulaMaps.containsKey(sourceUnit+"To"+targetUnit)){ //get the value from key
+           return (double) formulaMaps.get(sourceUnit+"To"+targetUnit); //get the double value
        } else {
-           return -1;
+           return -1; //return -1 for invalid units choosing
        }
         
     }

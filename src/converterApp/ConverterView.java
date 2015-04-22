@@ -1,6 +1,7 @@
 
 package converterapp;
 
+import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.math.RoundingMode;
@@ -10,6 +11,10 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
 import javax.swing.text.InternationalFormatter;
 
 /**
@@ -17,14 +22,20 @@ import javax.swing.text.InternationalFormatter;
  * @author Azhar, Alex, Jeydan, Russel
  */
 public class ConverterView extends javax.swing.JPanel{
-    private final String[] ISUnits = {"centimetre","metre","kilometre","celcius"};
-    private final String[] USUnits = {"inch","feet","yard","mile","fahrenheit"};
+    /**
+     * ConverterView mostly contains SWING code (JPanel, JFormattedText, JToggleButton, JButton etc)
+     * It  has main process of converting
+     */
+    private final String[] ISUnits = {"Centimetre","Metre","Kilometre","Celcius"};
+    private final String[] USUnits = {"Inch","Feet","Yard","Mile","Fahrenheit"};
     //private ConverterFormulas cf;
     /**
      * Creates new form ConverterView
      */
     public ConverterView() {
-        initComponents();
+        initComponents(); //initialize the component, see Compenent() method for more
+        txt_sourceUnit.setFormatterFactory(new CostumeFormatter(5)); //set textfield an instance of Formatter class
+        txt_targetUnit.setFormatterFactory(new CostumeFormatter(5)); //set textfield an instance of Formatter class
     }
 
     /**
@@ -103,9 +114,10 @@ public class ConverterView extends javax.swing.JPanel{
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         jPanel1.add(btn_convert, gridBagConstraints);
 
         toggleBtn_switch.setText("Switch");
@@ -114,13 +126,12 @@ public class ConverterView extends javax.swing.JPanel{
                 toggleBtn_switchItemStateChanged(evt);
             }
         });
-        toggleBtn_switch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                toggleBtn_switchActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(toggleBtn_switch, gridBagConstraints);
 
         sp_numberAfterDecimal.setModel(new javax.swing.SpinnerNumberModel(5, 1, 9, 1));
@@ -140,9 +151,13 @@ public class ConverterView extends javax.swing.JPanel{
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(sp_numberAfterDecimal, gridBagConstraints);
 
-        txt_sourceUnit.setFormatterFactory(new CostumeFormatter(5));
+        txt_sourceUnit.setColumns(20);
         txt_sourceUnit.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        txt_sourceUnit.setValue(0);
+        txt_sourceUnit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_sourceUnitKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -154,7 +169,6 @@ public class ConverterView extends javax.swing.JPanel{
         txt_targetUnit.setEditable(false);
         txt_targetUnit.setFormatterFactory(new CostumeFormatter(5));
         txt_targetUnit.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        txt_targetUnit.setValue(0);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -167,7 +181,7 @@ public class ConverterView extends javax.swing.JPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void toggleBtn_switchItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_toggleBtn_switchItemStateChanged
-        // TODO add your handling code here:
+        // TODO add your handling code here: swap the source units into target units and otherwise
         int selectedSourceIndex = cbox_sourceUnit.getSelectedIndex();
         int selectedTargetIndex = cbox_targetUnit.getSelectedIndex();
         if(evt.getStateChange() == ItemEvent.DESELECTED){
@@ -182,55 +196,51 @@ public class ConverterView extends javax.swing.JPanel{
     }//GEN-LAST:event_toggleBtn_switchItemStateChanged
 
     private void cbox_sourceUnitItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_sourceUnitItemStateChanged
-        // TODO add your handling code here:
-        if(cbox_sourceUnit.getSelectedItem().equals("celcius")){
-            if(!cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
-                cbox_targetUnit.setSelectedItem("fahrenheit");
+        // TODO add your handling code here: to avoid choosing invalid units
+        if(cbox_sourceUnit.getSelectedItem().equals("Celcius")){
+            if(!cbox_targetUnit.getSelectedItem().equals("Fahrenheit")){
+                cbox_targetUnit.setSelectedItem("Fahrenheit");
             }
-        } else if(cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
-            if(!cbox_targetUnit.getSelectedItem().equals("celcius")){
-                cbox_targetUnit.setSelectedItem("celcius");
+        } else if(cbox_sourceUnit.getSelectedItem().equals("Fahrenheit")){
+            if(!cbox_targetUnit.getSelectedItem().equals("Celcius")){
+                cbox_targetUnit.setSelectedItem("Celcius");
             }
-        }  else if(cbox_targetUnit.getSelectedItem().equals("celcius")){
-            if(!cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
-                cbox_targetUnit.setSelectedItem("metre");
+        }  else if(cbox_targetUnit.getSelectedItem().equals("Celcius")){
+            if(!cbox_sourceUnit.getSelectedItem().equals("Fahrenheit")){
+                cbox_targetUnit.setSelectedItem("Metre");
             }
-        } else if(cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
-            if(!cbox_sourceUnit.getSelectedItem().equals("celcius")){
-                cbox_targetUnit.setSelectedItem("feet");
+        } else if(cbox_targetUnit.getSelectedItem().equals("Fahrenheit")){  
+            if(!cbox_sourceUnit.getSelectedItem().equals("Celcius")){
+                cbox_targetUnit.setSelectedItem("Feet");
             }
         }
         
     }//GEN-LAST:event_cbox_sourceUnitItemStateChanged
 
     private void cbox_targetUnitItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbox_targetUnitItemStateChanged
-        if(cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
-            if(!cbox_sourceUnit.getSelectedItem().equals("celcius")){
-                cbox_sourceUnit.setSelectedItem("celcius");
+        // TODO add your handling code here: to avoid choosing invalid units
+        if(cbox_targetUnit.getSelectedItem().equals("Fahrenheit")){
+            if(!cbox_sourceUnit.getSelectedItem().equals("Celcius")){
+                cbox_sourceUnit.setSelectedItem("Celcius");
             }
-        } else if(cbox_targetUnit.getSelectedItem().equals("celcius")){
-            if(!cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
-                cbox_sourceUnit.setSelectedItem("fahrenheit");
+        } else if(cbox_targetUnit.getSelectedItem().equals("Celcius")){
+            if(!cbox_sourceUnit.getSelectedItem().equals("Fahrenheit")){
+                cbox_sourceUnit.setSelectedItem("Fahrenheit");
             }
-        } else if(cbox_sourceUnit.getSelectedItem().equals("celcius")){
-            if(!cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
-                cbox_sourceUnit.setSelectedItem("metre");
+        } else if(cbox_sourceUnit.getSelectedItem().equals("Celcius")){
+            if(!cbox_targetUnit.getSelectedItem().equals("Fahrenheit")){
+                cbox_sourceUnit.setSelectedItem("Metre");
             }
-        } else if(cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
-            if(!cbox_targetUnit.getSelectedItem().equals("celcius")){
-                cbox_sourceUnit.setSelectedItem("feet");
+        } else if(cbox_sourceUnit.getSelectedItem().equals("Fahrenheit")){
+            if(!cbox_targetUnit.getSelectedItem().equals("Celcius")){
+                cbox_sourceUnit.setSelectedItem("Feet");
             }
         }
        
     }//GEN-LAST:event_cbox_targetUnitItemStateChanged
 
-    private void toggleBtn_switchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleBtn_switchActionPerformed
-        
-    }//GEN-LAST:event_toggleBtn_switchActionPerformed
-
     private void sp_numberAfterDecimalStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sp_numberAfterDecimalStateChanged
-        // TODO add your handling code here:
-        
+        // TODO add your handling code here: textfield set to zero when place decimal value changes, set new format to field
         txt_sourceUnit.setFormatterFactory(new CostumeFormatter(Integer.parseInt(sp_numberAfterDecimal.getValue().toString())));
         txt_targetUnit.setFormatterFactory(new CostumeFormatter(Integer.parseInt(sp_numberAfterDecimal.getValue().toString())));
         double sourceValue = Double.parseDouble(txt_sourceUnit.getValue().toString());
@@ -240,22 +250,27 @@ public class ConverterView extends javax.swing.JPanel{
     }//GEN-LAST:event_sp_numberAfterDecimalStateChanged
 
     private void btn_convertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_convertActionPerformed
-        // TODO add your handling code here:
-        String sourceUnit = cbox_sourceUnit.getSelectedItem().toString();
-        String targetUnit = cbox_targetUnit.getSelectedItem().toString();
-        Formulas f = new Formulas(Double.parseDouble(txt_sourceUnit.getValue().toString()));
+        // TODO add your handling code here: converting process takes place below this line
+        String sourceUnit = cbox_sourceUnit.getSelectedItem().toString().toLowerCase(); //get text from selected item from comboxbox with lower case char
+        String targetUnit = cbox_targetUnit.getSelectedItem().toString().toLowerCase(); //get text from selected item from comboxbox with lower case char
+        Formulas f = new Formulas(Double.parseDouble(txt_sourceUnit.getValue().toString())); //input the value into object "f"
         
-        double value = f.getValue(sourceUnit, targetUnit);
-        if(value == -1){
-            JOptionPane.showMessageDialog(this, "the units are invalid");
-            txt_sourceUnit.setValue(0.0);
-            txt_targetUnit.setValue(0.0);
-            return;
-        }
-        
-        txt_targetUnit.setValue(value);
-//        
+        double value = f.getValue(sourceUnit, targetUnit); //get converted value
+        txt_targetUnit.setValue(value); //set value to target textfield
     }//GEN-LAST:event_btn_convertActionPerformed
+
+    private void txt_sourceUnitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_sourceUnitKeyTyped
+        // TODO add your handling code here: converting process by pressing enter key
+        if(evt.getKeyChar() == KeyEvent.VK_ENTER){ 
+            String sourceUnit = cbox_sourceUnit.getSelectedItem().toString().toLowerCase();
+            String targetUnit = cbox_targetUnit.getSelectedItem().toString().toLowerCase();
+            Formulas f = new Formulas(Double.parseDouble(txt_sourceUnit.getValue().toString()));
+
+            double value = f.getValue(sourceUnit, targetUnit);
+        
+            txt_targetUnit.setValue(value); 
+        }
+    }//GEN-LAST:event_txt_sourceUnitKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -272,23 +287,31 @@ public class ConverterView extends javax.swing.JPanel{
     private javax.swing.JFormattedTextField txt_targetUnit;
     // End of variables declaration//GEN-END:variables
     
-    class CostumeFormatter extends JFormattedTextField.AbstractFormatterFactory{
+    class CostumeFormatter extends JFormattedTextField.AbstractFormatterFactory {
+       /**
+        * CostumeFormatter is costume class which extends from AbstractFormatterFactory
+        * CostumeFormatter sets number format, min & max decimal places, rounding decimal method
+        */
+
+        private int maximumFractionDigits; // max decimal place stores 
         
-        private int maximumFractionDigits;
-        
-        CostumeFormatter(int maximumFractionDigits){
+        CostumeFormatter(int maximumFractionDigits){ //construction with initial max place
             this.maximumFractionDigits = maximumFractionDigits;
         }
         
         @Override
         public AbstractFormatter getFormatter(JFormattedTextField tf) {
             NumberFormat format = DecimalFormat.getInstance();
-                format.setMinimumFractionDigits(1);
-                format.setMaximumFractionDigits(maximumFractionDigits);
-                format.setRoundingMode(RoundingMode.HALF_UP);
-                InternationalFormatter formatter = new InternationalFormatter(format);
-                formatter.setAllowsInvalid(false);
-                return formatter;
+//            format.setMinimumIntegerDigits(0);
+            format.setMinimumFractionDigits(1); //set minimum decimal place
+            format.setMaximumFractionDigits(maximumFractionDigits); //set maximum decimal place
+            format.setRoundingMode(RoundingMode.HALF_UP); //set rounding decimal method
+            
+            InternationalFormatter formatter = new InternationalFormatter(format);
+            formatter.setAllowsInvalid(false);
+            
+            return formatter;
         }
     }
+    
 }

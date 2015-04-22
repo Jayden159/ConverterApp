@@ -13,6 +13,7 @@ public class ConverterApp {
 
     /**
      * @param args the command line arguments
+     * this class is main class, to run project, simply execute this class
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -39,7 +40,7 @@ public class ConverterApp {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() { // put the process into thread class
             public void run() {
                 new ConverterFrame().setVisible(true);
             }

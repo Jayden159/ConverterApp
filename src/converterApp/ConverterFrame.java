@@ -15,11 +15,12 @@ import java.awt.Toolkit;
 public class ConverterFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form ConverterFrame
+     * ConverterFrame is extended class form JFrame, containing ConverterPanel class.
+     * main class calls ConverterFrame class
      */
     public ConverterFrame() {
         initComponents();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); //get the screen size
         setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2); //to show the display at center of screens
         
     }
