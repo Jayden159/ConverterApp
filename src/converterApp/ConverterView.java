@@ -63,7 +63,7 @@ public class ConverterView extends javax.swing.JPanel{
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel4.setText("Fraction Digits");
+        jLabel4.setText("Decimal Places");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -191,6 +191,14 @@ public class ConverterView extends javax.swing.JPanel{
             if(!cbox_targetUnit.getSelectedItem().equals("celcius")){
                 cbox_targetUnit.setSelectedItem("celcius");
             }
+        }  else if(cbox_targetUnit.getSelectedItem().equals("celcius")){
+            if(!cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
+                cbox_targetUnit.setSelectedItem("metre");
+            }
+        } else if(cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
+            if(!cbox_sourceUnit.getSelectedItem().equals("celcius")){
+                cbox_targetUnit.setSelectedItem("feet");
+            }
         }
         
     }//GEN-LAST:event_cbox_sourceUnitItemStateChanged
@@ -204,6 +212,14 @@ public class ConverterView extends javax.swing.JPanel{
             if(!cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
                 cbox_sourceUnit.setSelectedItem("fahrenheit");
             }
+        } else if(cbox_sourceUnit.getSelectedItem().equals("celcius")){
+            if(!cbox_targetUnit.getSelectedItem().equals("fahrenheit")){
+                cbox_sourceUnit.setSelectedItem("metre");
+            }
+        } else if(cbox_sourceUnit.getSelectedItem().equals("fahrenheit")){
+            if(!cbox_targetUnit.getSelectedItem().equals("celcius")){
+                cbox_sourceUnit.setSelectedItem("feet");
+            }
         }
        
     }//GEN-LAST:event_cbox_targetUnitItemStateChanged
@@ -214,10 +230,13 @@ public class ConverterView extends javax.swing.JPanel{
 
     private void sp_numberAfterDecimalStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sp_numberAfterDecimalStateChanged
         // TODO add your handling code here:
-        txt_sourceUnit.setValue(0.0);
-        txt_targetUnit.setValue(0.0);
+        
         txt_sourceUnit.setFormatterFactory(new CostumeFormatter(Integer.parseInt(sp_numberAfterDecimal.getValue().toString())));
         txt_targetUnit.setFormatterFactory(new CostumeFormatter(Integer.parseInt(sp_numberAfterDecimal.getValue().toString())));
+        double sourceValue = Double.parseDouble(txt_sourceUnit.getValue().toString());
+        double targetValue = Double.parseDouble(txt_targetUnit.getValue().toString());
+        txt_sourceUnit.setValue(sourceValue);
+        txt_targetUnit.setValue(targetValue);
     }//GEN-LAST:event_sp_numberAfterDecimalStateChanged
 
     private void btn_convertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_convertActionPerformed
