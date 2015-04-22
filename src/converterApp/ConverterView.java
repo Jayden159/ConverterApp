@@ -9,12 +9,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFormattedTextField.AbstractFormatter;
-import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.DocumentFilter;
 import javax.swing.text.InternationalFormatter;
 
 /**

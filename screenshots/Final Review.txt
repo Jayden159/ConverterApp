@@ -1,7 +1,0 @@
-Final Review. 22/04/15 
-Convertion app fully functional, Unit calculations Reversible by toggle, selection VIA combo box. variable selection Decimal place rounding 1-9 decimal places. Bugfixer notes, renamed "fraction digits" in display to read "decimal places" to clarify term. Decimal rounding issue with some conversions. if Decimal place value is too low result will automatically result in 0.0, however this can only be noted. ensure client is aware of this while using Converter application
-Converter auto pairs Temprature units on selection. should help avoid mixing distance with temprature. error prompt in place in case the mistake still occurs, does not crash program. All conversions functional. Display is simple and easy to recognise. Issue with default value as "0.0" can cause input to be out by a factor of ten. minor issue, mistake easy to spot and correct by user, can be avoided by clicking between 0 and . No other issues to report. Converter appears fully opperational at present.
-
-ADDENDUM
-added defaulting feature to distance-temprature conversions, switching from a temprature conversion will default to a conversion to feet or metres. 
-added issue with rounding resetting values to 0.0, changing the value will redo the conversion using the new decimal places. works both ways. 
